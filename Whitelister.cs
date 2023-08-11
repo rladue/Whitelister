@@ -24,7 +24,7 @@ namespace Oxide.Plugins
                 Puts($"{player.displayName} is an admin.");
                 return;
             }
-            if (!player.HasPermission("whitelister.whitelist"))
+            if (!permission.UserHasPermission(player.UserIDString, "whitelister.whitelist"))
             {
                 Puts($"Kicking {player.displayName} from server");
                 player.Kick("You are not Whitelisted for this server. Contact an Admin if you believe this is an error.");
