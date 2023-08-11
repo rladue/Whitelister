@@ -6,11 +6,16 @@ using Oxide.Core.Libraries.Covalence;
 
 namespace Oxide.Plugins
 {
-    [Info("Whitelister", "iLakSkiL", "1.0.0")]
+    [Info("Whitelister", "iLakSkiL", "1.1.0")]
     [Description("Restricts server access to whitelisted players only")]
 
     class Whitelister : RustPlugin
     {
+        private void Init()
+        {
+            permission.RegisterPermission("whitelister.whitelist", this);
+        }
+
         void OnPlayerConnected(BasePlayer player)
         {
             Puts($"{player.displayName} has connected");
@@ -19,10 +24,10 @@ namespace Oxide.Plugins
                 Puts($"{player.displayName} is an admin.");
                 return;
             }
-            if (!permission.UserHasGroup(player.UserIDString, "reserved"))
+            if (!player.HasPermission("whitelister.whitelist"))
             {
                 Puts($"Kicking {player.displayName} from server");
-                player.Kick("Only BCR Reserved Members are allowed on this server.");
+                player.Kick("You are not Whitelisted for this server. Contact an Admin if you believe this is an error.");
                 return;
             }
             Puts($"{player.displayName} is allowed");
